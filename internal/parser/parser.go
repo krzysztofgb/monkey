@@ -1,10 +1,10 @@
 package parser
 
 import (
+	"fmt"
+	"monkey/internal/ast"
 	"monkey/internal/lexer"
 	"monkey/internal/token"
-	"monkey/internal/ast"
-	"fmt"
 )
 
 type precedence int
@@ -38,7 +38,7 @@ func (p *Parser) registerPrefix(tokenType token.TokenType, f prefixParseFn) {
 	p.prefixParseFns[tokenType] = f
 }
 
-func (p *Parser) registerInfix(tokenType token.TokenType, f infixParseFn) {
+func (p *Parser) registerInfix(tokenType token.TokenType, f infixParseFn) { //nolint: unused
 	p.infixParseFns[tokenType] = f
 }
 
@@ -156,10 +156,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 	}
 
 	for p.curToken.Type != token.EOF {
-		stmt := p.parseStatement()
-		if stmt != nil {
-			program.Statements = append(program.Statements, stmt)
-		}
+		program.Statements = append(program.Statements, p.parseStatement())
 		p.nextToken()
 	}
 

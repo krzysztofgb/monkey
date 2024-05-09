@@ -1,9 +1,9 @@
 package parser
 
 import (
-	"testing"
-	"monkey/internal/lexer"
 	"monkey/internal/ast"
+	"monkey/internal/lexer"
+	"testing"
 )
 
 func TestLetStatement(t *testing.T) {

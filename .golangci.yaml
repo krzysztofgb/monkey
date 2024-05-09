@@ -1,0 +1,75 @@
+# Options for analysis running.
+run:
+  # Timeout for analysis, e.g. 30s, 5m.
+  timeout: 10m
+
+  # Exit code when at least one issue was found.
+  issues-exit-code: 2
+
+  # Include test files or not.
+  tests: true
+
+  # ensures go.mod is up-to-date
+  modules-download-mode: readonly
+
+issues:
+  # Don't fix issues by default so that the pipeline fails if issues are found. Use "make linter" or "--fix" to automatically fix issues.
+  fix: false
+  # Maximum issues count per one linter.
+  max-issues-per-linter: 0
+  # Maximum count of issues with the same text.
+  max-same-issues: 0
+
+# output configuration options
+output:
+  # Format: colored-line-number|line-number|json|tab|checkstyle|code-climate|junit-xml|github-actions
+  format: colored-line-number
+
+linters:
+  # Disable all default linters. We re-enable specific linters below.
+  disable-all: true
+
+  # Enable specific linter(s)
+  # https://golangci-lint.run/usage/linters/#enabled-by-default
+  enable:
+    # Linter for Go source code that specializes in simplifying code
+    - gosimple
+    # Vet examines Go source code and reports suspicious constructs, such as Printf calls whose arguments do not align with the format string
+    - govet
+    # Report certain i18n/l10n anti-patterns in your Go codebase
+    - gosmopolitan
+    # A linter that detect the possibility to use variables/constants from the Go standard library
+    - usestdlibvars
+    # Detects when assignments to existing variables are not used
+    - ineffassign
+    # Using static analysis, it finds bugs and performance issues, offers simplifications, and enforces style rules
+    - staticcheck
+    # Checks Go code for unused constants, variables, functions and types
+    - unused
+    # check for pass []any as any in variadic func(...any)
+    - asasalint
+    # Checks types passed to the json encoding functions. Reports unsupported types and optionally reports occasions, where the check for the returned error can be omitted
+    - errchkjson
+    # Gofumpt checks whether code was gofumpt-ed.
+    - gofumpt
+    # Finds commonly misspelled English words in comments
+    - misspell
+    # Finds slice declarations that could potentially be pre-allocated
+    - prealloc
+    # Remove unnecessary type conversions
+    - unconvert
+    # Enforce standard import order
+    - gci
+
+linters-settings:
+  staticcheck:
+    checks: ["all", "-SA1019"]
+  gci:
+    sections: # organize imports from most external to most internal
+      - standard
+      - default
+      - prefix(monkey)
+    custom-order: true
+    skip-generated: true
+  gofumpt:
+    extra-rules: true

@@ -1,9 +1,9 @@
 package ast
 
 import (
-	"monkey/internal/token"
 	"bytes"
 	"fmt"
+	"monkey/internal/token"
 )
 
 type Node interface {
